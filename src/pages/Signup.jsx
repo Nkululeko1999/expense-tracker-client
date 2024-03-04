@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSlice';
+import { FaUserLock } from 'react-icons/fa';
 
 
 export default function Signup() {
@@ -86,6 +87,7 @@ export default function Signup() {
   return (
     <div className='p-4 max-w-lg mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>Signup</h1>
+      <FaUserLock className="my-5 mx-auto text-teal-900 w-12 h-12 sm:w-16 sm:h-16" />
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input type='text' placeholder='username' name='username' className='border py-3 px-4 rounded-lg' onChange={handleChange}/>
         <input type='email' placeholder='email' name='email' className='border py-3 px-4 rounded-lg' onChange={handleChange}/>
