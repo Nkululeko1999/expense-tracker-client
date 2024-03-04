@@ -11,7 +11,7 @@ export default function Signup() {
         <input type='password' placeholder='password' name='password' className='border py-3 px-4 rounded-lg' />
         <input type='password' placeholder='confirm password' name='confirmPassword' className='border py-3 px-4 rounded-lg' />
         <button type='submit'
-        className='rounded-lg p-3 bg-teal-800 hover:opacity-90 
+        className='rounded-lg p-3 bg-teal-900 hover:opacity-90 
         font-normal uppercase text-white disabled:opacity-60'
         >Signup</button>
       </form>
