@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
+import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSlice';
 
 
 export default function Signup() {
@@ -11,9 +13,10 @@ export default function Signup() {
     confirmPassword: ''
   });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { loading, error } = useSelector((state) => state.user);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // handle change from input and update the registerData
   const handleChange = (event) => {
@@ -43,7 +46,7 @@ export default function Signup() {
       console.log(newRegisterData);
 
       //set loading to true before submitting signup data
-      setLoading(true);
+      dispatch(signInStart());
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
@@ -56,8 +59,7 @@ export default function Signup() {
       console.log(data);
 
       if(data.success === false){
-        setError(data.message);
-        setLoading(false);
+        dispatch(signInFailure(data.message));
         toast.error(error);
       }
 
@@ -66,13 +68,12 @@ export default function Signup() {
       navigate('/verify-user');
 
       //After getting the data, everything went well 
-      setLoading(false);
+      dispatch(signInSuccess(data));
 
       //Clear form if everything goes well
 
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(signInFailure(error.message));
       toast.error(error);
     }
   }
