@@ -6,6 +6,10 @@ import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSli
 
 
 export default function Signup() {
+  const { user } = useSelector((state) => state.user);
+  const { error, loading } = user;
+
+  const dispatch = useDispatch();
   const [registerData, setRegisterData] = useState({
     username: '',
     email: '',
@@ -13,10 +17,9 @@ export default function Signup() {
     confirmPassword: ''
   });
 
-  const { loading, error } = useSelector((state) => state.user);
+  console.log("Loading Status " + loading);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   // handle change from input and update the registerData
   const handleChange = (event) => {
@@ -47,6 +50,7 @@ export default function Signup() {
 
       //set loading to true before submitting signup data
       dispatch(signInStart());
+      console.log(("loading has to be true"));
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
@@ -59,18 +63,18 @@ export default function Signup() {
       console.log(data);
 
       if(data.success === false){
+        toast.error(data.message);
         dispatch(signInFailure(data.message));
-        toast.error(error);
+
+        return
       }
 
-      //Navigate user to verify account if user is created successfully
       toast.success(data.message);
-      navigate('/verify-user');
-
       //After getting the data, everything went well 
       dispatch(signInSuccess(data));
+      
+      navigate('/verify-user');
 
-      //Clear form if everything goes well
 
     } catch (error) {
       dispatch(signInFailure(error.message));

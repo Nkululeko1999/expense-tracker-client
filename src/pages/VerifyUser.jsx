@@ -1,10 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUserLock } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { signInFailure, signInStart, signInSuccess } from "../redux/user/userSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function VerifyUser() {
-  const [verifyData, setVerifyData] = useState({code: ''});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [verifyData, setVerifyData] = useState({userId: '', code: ''});
+
+  //Initialize dispatch 
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+
+  //Get user data, error and loading from local storage -> persisted data
+  const { user } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = user;
+  console.log(user);
+
+  //set user Id
+  const userId = currentUser.data.id;
+
+  //add userId to verifyData
+  useEffect(() => {
+    setVerifyData((verifyData) => ({
+      ...verifyData,
+      userId: userId
+    }));
+  }, [userId]);
+
 
   const handleChange = (event) => {
     setVerifyData({
@@ -17,7 +42,9 @@ export default function VerifyUser() {
     event.preventDefault();
 
     try {
-      setLoading(true);
+
+      //Set loading to true
+      dispatch(signInStart());
 
       const response = await fetch('/api/auth/verify-user', {
         method: 'POST',
@@ -28,19 +55,22 @@ export default function VerifyUser() {
         body: JSON.stringify(verifyData),
       });
 
-      if(data.success === false){
-        setError(data.message);
-        setLoading(false);
-      }
-
       const data = await response.json();
       console.log(data);
-      setLoading(false);
 
+      if(data.success === false){
+        dispatch(signInFailure(data.message));
+        toast.error(data.message);
+      }
+
+      toast.success(data.message);
+      dispatch(signInSuccess(data));
+      navigate('/signin');
+     
 
     } catch (error) {
-      setError(error);
-      setLoading(false);
+      dispatch(signInFailure(error.message));
+      toast.error(error)
     }
   }
 
@@ -50,10 +80,10 @@ export default function VerifyUser() {
       <FaUserLock className="my-5 mx-auto text-teal-900 w-12 h-12 sm:w-16 sm:h-16" />
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input type='text' placeholder='Enter 6 digit code' name='code' className='border py-3 px-4 rounded-lg' onChange={handleChange}/>
-        <button type='submit'
+        <button type='submit' disabled={loading}
         className='rounded-lg p-3 bg-teal-900 hover:opacity-90 
         font-normal uppercase text-white disabled:opacity-60'>
-          Verify Account
+          {loading? 'Verifying Code' : 'Verify Account'}
         </button>
       </form>
 
