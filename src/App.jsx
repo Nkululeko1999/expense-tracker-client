@@ -11,10 +11,12 @@ import ForgotPassword from "./pages/ForgotPassword"
 import Contact from "./pages/Contact"
 import Dashboard from "./pages/Dashboard"
 import Settings from "./pages/Settings"
+import Header from "./components/Header"
 
 export default function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<Signin />} />
