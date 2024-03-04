@@ -12,6 +12,8 @@ import Contact from "./pages/Contact"
 import Dashboard from "./pages/Dashboard"
 import Settings from "./pages/Settings"
 import Header from "./components/Header"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
@@ -31,6 +33,7 @@ export default function App() {
         <Route path="/add-expense" element={<AddExpense />} />
         <Route path="/expenses" element={<Expenses />} />
       </Routes>
+      <ToastContainer className="absolute top-4 right-2" />
     </BrowserRouter>
   )
 }
