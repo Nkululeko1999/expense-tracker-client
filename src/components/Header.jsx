@@ -27,10 +27,10 @@ export default function Header() {
     
     return (
         <div>
-            <header className='bg-teal-950 text-white shadow-md p-3 sm:py-5 sm:px-12'>
+            <header className='bg-white text-slate-950 shadow-md p-3 sm:py-5 sm:px-12'>
                 <div className='flex justify-between items-center max-w-x6l mx-auto'>
                     <Link to='/'>
-                        <h1 className='font-bold text-base md:text-3xl flex flex-wrap opacity-85'>
+                        <h1 className='font-bold text-teal-950 text-base md:text-3xl flex flex-wrap opacity-85'>
                             <span>Expense</span>
                             <span>Tracker</span>
                         </h1>
@@ -57,7 +57,7 @@ export default function Header() {
                         </Link>
                         <li onClick={handleToggleDropdown} className={`${userLoggedIn ? 'hover:underline cursor-pointer' : 'hidden'}`}>
                             {profile ? (<img src="" alt="profile" />) : (
-                                <FaUserCircle className="block mx-auto h-6 w-6 sm:h-8 sm:w-8 rounded-full sm:mx-0 sm:shrink-0 
+                                <FaUserCircle className="text-teal-950 block mx-auto h-6 w-6 sm:h-8 sm:w-8 rounded-full sm:mx-0 sm:shrink-0 
                                 hover:cursor-pointer" />)}
                         </li>
                         {showDropdown && <Dropdown showDropdown={showDropdown} setDropdown={setDropdown}/>}
