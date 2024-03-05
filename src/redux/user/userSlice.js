@@ -36,12 +36,19 @@ const userSlice = createSlice({
                 state.loading = false;
                 state.error = null;
                 state.isLoggedIn = true;
-            }        
-
+        },
+        
+        logoutCurrentUser: (state) => {
+            state.loading = false;
+            state.currentUser = null;
+            state.isLoggedIn = false;
+            state.error = null;
+        }
     }
 });
 
 const userReducer = userSlice.reducer;
 
-export const { signInStart, signInSuccess, signInFailure, userSignedIn } = userSlice.actions;
+export const { signInStart, signInSuccess, signInFailure, userSignedIn, logoutCurrentUser } = userSlice.actions;
 export default userReducer;
+
