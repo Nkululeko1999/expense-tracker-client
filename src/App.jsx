@@ -14,6 +14,7 @@ import Settings from "./pages/Settings"
 import Header from "./components/Header"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Exports from "./pages/Exports"
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/add-expense" element={<AddExpense />} />
         <Route path="/expenses" element={<Expenses />} />
+        <Route path="/exports" element={<Exports />} />
       </Routes>
       <ToastContainer className="absolute top-4 right-2" />
     </BrowserRouter>
