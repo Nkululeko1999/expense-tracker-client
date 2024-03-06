@@ -1,9 +1,10 @@
 import React from 'react'
+import HeaderBreadcump from '../components/HeaderBreadcump'
 
 export default function About() {
   return (
     <div>
-      About
+      <HeaderBreadcump title="About Us" />
     </div>
   )
 }
