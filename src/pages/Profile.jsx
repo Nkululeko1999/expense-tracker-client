@@ -94,6 +94,8 @@ export default function Profile() {
       });
 
       if (response.ok) {
+              // Not completeted
+      // const fetchedResData = await response.json();
         // Update successful, do any additional actions if needed
         toast.success("User profile updated successfully");
         console.log('User profile updated successfully');

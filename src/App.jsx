@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import About from "./pages/About"
-import AddExpense from "./pages/AddExpense"
 import Home from "./pages/Home"
 import Expenses from "./pages/Expenses"
 import Signin from "./pages/Signin"
@@ -31,7 +30,6 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/add-expense" element={<AddExpense />} />
         <Route path="/expenses" element={<Expenses />} />
         <Route path="/exports" element={<Exports />} />
       </Routes>
