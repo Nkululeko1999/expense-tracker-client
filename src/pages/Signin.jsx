@@ -57,6 +57,7 @@ export default function Signin() {
       toast.success(data.message);
       //After getting the data, everything went well 
       dispatch(signInSuccess(data));
+
       // dispatch(userSignedIn);
       dispatch(userSignedIn(data));
       
