@@ -45,6 +45,10 @@ const userSlice = createSlice({
             state.error = null;
         },
 
+        updateCurrentUser: (state, action) => {
+            state.currentUser = action.payload;
+            state.error = action.payload;
+        }
     }
 });
 

@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 export default function Profile() {
   const { user } = useSelector((state) => state.user);
 
-  // User data
+  // User token 
   const userAuthToken = user.currentUser;
   const { token } = userAuthToken;
+
+  // User id
+  const { id } = user.currentUser.data.id;
 
   const [userDetails, setUserDetails] = useState({
     firstName: '',
@@ -17,7 +21,8 @@ export default function Profile() {
     address: '',
     username: '',
     email: '',
-    profilePic: null
+    profilePic: null,
+    userId: id,
   });
 
   const [profileImage, setProfileImage] = useState(null);
@@ -34,7 +39,9 @@ export default function Profile() {
       });
   
       if (!response.ok) {
+        toast.error(response.message);
         throw new Error('Failed to fetch user details');
+        return
       }
   
       // Assuming the response contains user details in JSON format
@@ -55,7 +62,13 @@ export default function Profile() {
   const handleImageChange = (e) => {
     // Handle image upload
     setProfileImage(URL.createObjectURL(e.target.files[0]));
-  }
+  
+    setUserDetails((userDetails) => ({
+      ...userDetails,
+      [e.target.name]: e.target.value
+    }));
+  };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,39 +77,33 @@ export default function Profile() {
       [name]: value
     }));
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Update the user details in the database
     try {
-      // Perform API call to update user details
-      const formData = new FormData();
-      formData.append('firstName', userDetails.firstName);
-      formData.append('lastName', userDetails.lastName);
-      formData.append('phoneNumber', userDetails.phoneNumber);
-      formData.append('gender', userDetails.gender);
-      formData.append('address', userDetails.address);
-      formData.append('email', userDetails.email);
-      if (profileImage) {
-        formData.append('profilePic', profileImage);
-      }
-
+      // Perform API call to update user detail
       const response = await fetch('/api/profile/update-profile', {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: formData
+        body: JSON.stringify(userDetails)
       });
 
       if (response.ok) {
         // Update successful, do any additional actions if needed
+        toast.success("User profile updated successfully");
         console.log('User profile updated successfully');
       } else {
+        toast.error("Profile not updated")
         throw new Error('Failed to update user details');
       }
     } catch (error) {
       console.error('Error updating user details:', error);
+      console.log(error.response.message);
     }
   };
 
